@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIG-Jakarta Selatan</title>
+
+    <!-- import jquery cdn -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- import bootstrap css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- import font awesome v6 cdn -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+        integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+        crossorigin="anonymous" />
+    <!-- import font awesome v6 cdn -->
+
+    <!-- adminlte import-->
+    <link rel="stylesheet" href="./css/adminlte.min.css">
+    <script src="./js/adminlte.min.js"></script>
+    <!-- adminlte import-->
+
+    <!-- leaflet import css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <!-- leaflet import css -->
+
+    <!-- import leaflet library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw-src.js"></script>
+    <!-- import leaflet library -->
+
+    <style>
+        /* scrollable sidebar */
+        .sidebar {
+            position: fixed;
+            overflow-y: scroll;
+            top: 10;
+            bottom: 0;
+        }
+    </style>
+
+
+
+</head>
+
+<body>
+
+    <!-- adminlte sidebar for leaflet -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Brand Logo -->
+        <a href="index3.html" class="brand-link">
+            <img src="./img/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                style="opacity: .8">
+            <span class="brand-text font-weight-light">RIZKY PRATAMA P</span>
+        </a>
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+                        <!-- menunya akan ditaruh disini-->
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+    <!-- adminlte sidebar for leaflet -->
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Sistem Informasi Geografis | 3332190010</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!-- card content for leaflet-->
+                        <div class="card card-dark">
+                            <div class="card-header">
+                                <h3 class="card-title"> JAKARTA SELATAN </h3>
+                            </div>
+                            <div class="card-body">
+                                <div id="map" style="height: 550px;"></div> <!-- mapnya bakal ditaro disini -->
+                            </div> <!-- card body for leaflet-->
+                        </div> <!-- card content for leaflet-->
+                    </div> <!-- /.col-md-6 -->
+                </div> <!-- /.row -->
+            </div> <!-- /.container-fluid -->
+        </div> <!-- /.content -->
+    </div> <!-- /.content-wrapper -->
+    <!-- main footer -->
+    <footer class="main-footer">
+        <!-- To the right -->
+        <div class="float-right d-none d-sm-inline">
+            UAS Semester Ganjil 2022/2023
+        </div>
+        <!-- Default to the left -->
+        <strong>Rizky Pratama Putra &copy; 2022 <a href="#">Sistem Informasi Geografis</a>.</strong> Universitas Sultan
+        Ageng Tirtayasa.
+    </footer>
+    <!-- main footer -->
+
+    <script>
+
+        // create map jakarta selatan
+        var map = L.map('map').setView([-6.259804959923784, 106.80843229959441], 12);
+        // add tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+       // add geojson file
+       var geojsonAreaLayer = new L.GeoJSON.AJAX(["data/ADMINISTRASIDESA_AR_25K.geojson"], {
+        style: function (feature) {	
+            //random color
+            var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+            return {
+                color: color,
+                weight: 1,
+                opacity: 1,
+                fillColor: color,
+                fillOpacity: 0.5
+            };
+        },
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup("Desa : " + feature.properties.NAMOBJ);
+            var str = '<li class="zoom nav-item">   <a href="javascript:void(0);" class="nav-link" id = zoomTo' + feature.properties.NAMOBJ.replace(/\s/g, "") + '><i class="nav-icon fas fa-map-marker"></i><p>' + feature.properties.NAMOBJ + '</p></a></li>';
+
+            $('.nav-sidebar').append(str);
+
+            $('#zoomTo' + feature.properties.NAMOBJ.replace(/\s/g, "")).click(function () {
+                map.setView(layer.getBounds().getCenter(), 15);
+            });
+        },
+    }).addTo(map);
+
+    // add geojson file
+    var geojsonLineLayer = new L.GeoJSON.AJAX(["data/JALAN_LN_25K.geojson"], {
+        style: function (feature) {	
+            //random color
+            var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+            return {
+                color: color,
+                weight: 2,
+                opacity: 1,
+                fillColor: color,
+                fillOpacity: 0.5
+            };
+        },
+    }).addTo(map);
+
+    // add pendidikan geojson file with custom icon
+    var geojsonPendidikanLayer = new L.GeoJSON.AJAX(["data/PENDIDIKAN_PT_25K.geojson"]).addTo(map);
+
+    // add kontur geojson with green line
+    var geojsonKonturLayer = new L.GeoJSON.AJAX(["data/KONTUR_LN_25K.geojson"], {
+        style: function (feature) {
+            return {
+                color: 'green',
+                weight: 1,
+                opacity: 1,
+                fillColor: 'green',
+                fillOpacity: 0.5
+            };
+        },
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup("Kontur : " + feature.properties.NAMOBJ);
+        },
+    }).addTo(map);
+
+    var baseMaps = {
+        "Area" : geojsonAreaLayer,
+        "Line" : geojsonLineLayer,
+    }
+
+    var overLays = {
+        "Pendidikan" : geojsonPendidikanLayer,
+        "Kontur" : geojsonKonturLayer,
+    }
+
+    L.control.layers(baseMaps, overLays).addTo(map);
+        
+
+
+    </script>
+
+</body>
+
+</html>

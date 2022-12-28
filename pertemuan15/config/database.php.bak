@@ -1,0 +1,22 @@
+<?php 
+    class Database {
+        
+		private $host = "localhost";
+        private $database_name = "pertemuan15";
+        private $username = "postgres";
+        private $password = "qwerty";
+
+        public $conn;
+
+        public function getConnectionPostgreSQL(){
+            $this->conn = null;
+            try{
+                $this->conn = new PDO("pgsql:host=" . $this->host . ";dbname=" . $this->database_name, $this->username, $this->password);
+            }catch(PDOException $exception){
+                echo "Database could not be connected: " . $exception->getMessage();
+            }
+            return $this->conn;
+        }
+		
+    }  
+?>
